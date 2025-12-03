@@ -1,9 +1,124 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-    <title>Test DevOps</title>
+    <meta charset="UTF-8">
+    <title>Mini Site DevOps</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+        }
+
+        header {
+            background: #0d6efd;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        nav {
+            background: #084298;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .section {
+            padding: 30px;
+            background: white;
+            margin: 20px;
+            border-radius: 10px;
+        }
+
+        h2 {
+            color: #084298;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 15px;
+            background: #0d6efd;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: #0b5ed7;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            background: #212529;
+            color: white;
+            margin-top: 40px;
+        }
+
+        /* Animation */
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 1.5s forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+    </style>
 </head>
 <body>
-    <h1>Bienvenue dans le pipelines DevOps</h1>
+
+<header>
+    <h1>Bienvenue sur mon mini site DevOps</h1>
+    <p>Un petit site HTML pour mon pipeline CI/CD GitHub Actions</p>
+</header>
+
+<nav>
+    <a href="#accueil">Accueil</a>
+    <a href="#apropos">À propos</a>
+    <a href="#contact">Contact</a>
+</nav>
+
+<div id="accueil" class="section fade-in">
+    <h2>🏠 Accueil</h2>
+    <p>Ce site est un exemple utilisé dans un pipeline CI/CD GitHub Actions.</p>
+    <p>Il montre comment un simple fichier HTML peut être automatiquement testé et déployé.</p>
+    <a class="btn" href="#apropos">En savoir plus</a>
+</div>
+
+<div id="apropos" class="section fade-in">
+    <h2>ℹ️ À propos</h2>
+    <p>Ce mini site a été généré dans le cadre d’un TD DevOps.</p>
+    <ul>
+        <li>HTML simple</li>
+        <li>Structure professionnelle</li>
+        <li>Navigation fluide</li>
+        <li>Compatible CI/CD</li>
+    </ul>
+</div>
+
+<div id="contact" class="section fade-in">
+    <h2>📧 Contact</h2>
+    <p>Tu peux me contacter par email :</p>
+    <p><strong>contact@monsite.com</strong></p>
+</div>
+
+<footer>
+    © 2025 - Mini Site DevOps | Créé pour un TD GitHub Actions
+</footer>
+
 </body>
 </html>
