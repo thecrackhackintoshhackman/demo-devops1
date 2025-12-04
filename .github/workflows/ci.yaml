@@ -13,7 +13,7 @@ jobs:
       - name: Checkout du dépôt
         uses: actions/checkout@v3
 
-      - name: Build de l'image Docker
+      - name: Build Docker image
         run: docker build -t mon-site-ci .
 
       - name: Lancer le conteneur pour test
@@ -22,5 +22,18 @@ jobs:
       - name: Vérifier que le conteneur tourne
         run: docker ps
 
-      - name: Test simple
-        run: echo "CI + Docker exécuté avec succès !"
+      - name: Test HTTP (ping du site)
+        run: |
+          sleep 5
+          curl -I http://localhost:8080
+
+      - name: Stopper & supprimer le conteneur
+        run: |
+          docker stop test-container
+          docker rm test-container
+
+      - name: Upload artefact (tout le projet)
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-build
+          path: ./

@@ -19,15 +19,20 @@ jobs:
 
       - name: Vérifier l'image Docker
         run: docker image ls
-        
 
-      # ↓ Ici la partie FTP reste comme tu l'avais
+      - name: Upload Docker image as artefact
+        uses: actions/upload-artifact@v4
+        with:
+          name: docker-image
+          path: .
+          retention-days: 5
+
       - name: Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.0.0
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./ 
+          local-dir: ./
           server-dir: /htdocs/
           dry-run: false
