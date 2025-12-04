@@ -1,4 +1,4 @@
-name: Deploy HTML Website + Docker Build
+name: Deploy HTML Website + Docker Hub Push
 
 on:
   push:
@@ -14,19 +14,23 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      # --- Build Docker Image ---
       - name: Build Docker image
-        run: docker build -t mon-site-cd .
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/mon-site:latest .
 
+      # --- Login Docker Hub ---
+      - name: Login to Docker Hub
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      # --- Push Docker Image ---
+      - name: Push Docker image to Docker Hub
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/mon-site:latest
+
+      # --- Vérification ---
       - name: Vérifier l'image Docker
         run: docker image ls
 
-      - name: Upload Docker image as artefact
-        uses: actions/upload-artifact@v4
-        with:
-          name: docker-image
-          path: .
-          retention-days: 5
-
+      # --- Déploiement FTP (comme tu as déjà) ---
       - name: Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.0.0
         with:
