@@ -1,4 +1,4 @@
-name: Deploy HTML Website
+name: Deploy HTML Website + Docker Build
 
 on:
   push:
@@ -14,12 +14,19 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Build Docker image
+        run: docker build -t mon-site-cd .
+
+      - name: Vérifier l'image Docker
+        run: docker image ls
+
+      # ↓ Ici la partie FTP reste comme tu l'avais
       - name: Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.0.0
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./
+          local-dir: ./ 
           server-dir: /htdocs/
           dry-run: false

@@ -1,4 +1,4 @@
-name: CI Test
+name: CI Test with Docker
 
 on:
   push:
@@ -13,5 +13,14 @@ jobs:
       - name: Checkout du dépôt
         uses: actions/checkout@v3
 
+      - name: Build de l'image Docker
+        run: docker build -t mon-site-ci .
+
+      - name: Lancer le conteneur pour test
+        run: docker run -d -p 8080:80 --name test-container mon-site-ci
+
+      - name: Vérifier que le conteneur tourne
+        run: docker ps
+
       - name: Test simple
-        run: echo "CI Pipeline exécuté avec succès !"
+        run: echo "CI + Docker exécuté avec succès !"
