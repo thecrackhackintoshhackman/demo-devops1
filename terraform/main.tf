@@ -18,11 +18,11 @@ resource "render_web_service" "mon_site" {
   plan   = "free"
   region = "frankfurt"
 
-  image = "docker.io/hackintoshhackman/mon-site:latest"
+  runtime_source = "docker"
 
-  ports = [
-    {
-      port = 80
-    }
-  ]
+  docker_image = "docker.io/hackintoshhackman/mon-site:latest"
+
+  docker_command = ""
+
+  health_check_path = "/"
 }
