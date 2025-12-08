@@ -1,177 +1,132 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>Mini Site DevOps</title>
+<meta charset="UTF-8">
+<title>Mini Site DevOps Premium</title>
 
-    <!-- Icônes -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
+<!-- Font Awesome Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-        body {
-            background: #f2f4f7;
-        }
+<style>
+    * { margin:0; padding:0; box-sizing:border-box; font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+    body { background: #0a0a0a; color: #eee; }
 
-        /* HEADER + NAV */
-        header {
-            background: #0d6efd;
-            padding: 20px;
-            color: white;
-            text-align: center;
-        }
+    /* HEADER */
+    header {
+        position: relative;
+        text-align: center;
+        padding: 80px 20px;
+        background: linear-gradient(120deg, #6610f2, #0d6efd, #00d4ff);
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease infinite;
+        overflow: hidden;
+    }
 
-        nav {
-            background: #084298;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-            color: white;
-        }
+    header h1 {
+        font-size: 3em;
+        text-shadow: 0 0 10px #fff, 0 0 20px #0d6efd, 0 0 30px #6610f2;
+        animation: glow 2s ease-in-out infinite alternate;
+        margin-bottom: 10px;
+    }
 
-        nav .logo {
-            font-size: 1.4em;
-            font-weight: bold;
-        }
+    header p {
+        font-size: 1.3em;
+        opacity: 0.9;
+        margin-top: 10px;
+        animation: fadeInUp 1.5s forwards;
+    }
 
+    /* NAVIGATION */
+    nav {
+        background: rgba(20,20,40,0.95);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 30px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    }
+
+    nav .logo { font-size: 1.8em; font-weight: 700; color: #0d6efd; text-shadow: 0 0 5px #0d6efd; }
+    nav ul { display: flex; list-style: none; gap: 25px; }
+    nav ul li a { color: #fff; text-decoration: none; font-weight: 600; transition: 0.3s; }
+    nav ul li a:hover { color: #00d4ff; text-shadow: 0 0 10px #00d4ff; }
+
+    .burger { display: none; font-size: 2em; cursor: pointer; color: #fff; }
+
+    @media (max-width:768px){
         nav ul {
-            display: flex;
-            list-style: none;
-            gap: 20px;
+            position: absolute; top:70px; right:0; background:#111; width:220px; flex-direction: column; display:none;
+            padding:20px; border-radius:0 0 0 10px;
         }
+        nav ul.show { display:flex; }
+        .burger { display:block; }
+    }
 
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-        nav ul li a:hover {
-            color: #00d4ff;
-        }
+    /* SECTIONS */
+    .section {
+        max-width: 1000px; margin:50px auto; padding:50px 30px; border-radius:15px;
+        background: rgba(30,30,50,0.85); box-shadow: 0 8px 20px rgba(0,0,0,0.5); opacity:0; transform: translateY(40px);
+        transition: all 1s ease;
+    }
 
-        /* MENU BURGER (mobile) */
-        .burger {
-            display: none;
-            font-size: 1.8em;
-            cursor: pointer;
-        }
+    .section.show { opacity:1; transform: translateY(0); }
 
-        @media (max-width: 768px) {
-            nav ul {
-                position: absolute;
-                top: 70px;
-                right: 0;
-                background: #084298;
-                width: 200px;
-                flex-direction: column;
-                display: none;
-                padding: 20px;
-                border-radius: 0 0 0 10px;
-            }
+    .section h2 { color:#00d4ff; margin-bottom:20px; text-shadow: 0 0 5px #0d6efd; }
 
-            nav ul.show {
-                display: flex;
-            }
+    .section p, .section li { line-height:1.6; margin-bottom:12px; }
 
-            .burger {
-                display: block;
-            }
-        }
+    .btn {
+        display:inline-block; padding:14px 30px; border-radius:12px;
+        font-weight:700; text-decoration:none;
+        color:#fff; background:linear-gradient(45deg,#6610f2,#0d6efd,#00d4ff);
+        background-size: 200% 200%;
+        animation: btnGlow 4s linear infinite;
+        box-shadow: 0 0 10px #0d6efd, 0 0 20px #6610f2;
+        transition: transform 0.3s;
+    }
 
-        /* SECTIONS */
-        .section {
-            background: white;
-            margin: 25px;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            animation: fadeIn 1s forwards;
-        }
+    .btn:hover { transform: scale(1.1); }
 
-        h2 {
-            margin-bottom: 10px;
-            color: #084298;
-        }
+    /* ICON CARDS */
+    .cards { display:flex; flex-wrap:wrap; gap:25px; justify-content:center; margin-top:30px; }
+    .card {
+        flex:1; min-width:250px; padding:30px 20px; border-radius:15px;
+        background: rgba(255,255,255,0.05); text-align:center;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+        transition: all 0.4s;
+    }
+    .card:hover { transform: translateY(-10px); box-shadow: 0 12px 30px rgba(0,0,0,0.8); }
+    .card i { font-size:50px; color:#00d4ff; margin-bottom:15px; animation: iconBounce 2s infinite; }
+    .card h3 { margin-bottom:10px; font-size:1.3em; }
+    .card p { color:#ccc; }
 
-        p {
-            margin-bottom: 15px;
-        }
+    /* FOOTER */
+    footer { text-align:center; padding:30px; background:#111; color:#ccc; font-size:0.9em; box-shadow:0 -2px 10px rgba(0,0,0,0.5); }
 
-        /* BUTTON */
-        
-        
-        .btn:hover {
-            background: #0b5ed7;
-            transform: scale(1.05);
-        }
-
-        /* ICON CARDS */
-        .cards {
-            display: flex;
-            gap: 20px;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
-
-        .card {
-            flex: 1;
-            min-width: 250px;
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0px 3px 12px rgba(0,0,0,0.1);
-            transition: 0.3s;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0px 5px 18px rgba(0,0,0,0.2);
-        }
-
-        .card i {
-            font-size: 40px;
-            margin-bottom: 10px;
-            color: #0d6efd;
-        }
-
-        /* FOOTER */
-        footer {
-            text-align: center;
-            padding: 20px;
-            background: #212529;
-            color: white;
-            margin-top: 60px;
-        }
-
-        /* Animation */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-    </style>
+    /* ANIMATIONS */
+    @keyframes fadeInUp { from {opacity:0; transform:translateY(30px);} to {opacity:1; transform:translateY(0);} }
+    @keyframes glow { 0%{text-shadow:0 0 5px #fff,0 0 10px #0d6efd,0 0 20px #6610f2;} 100%{text-shadow:0 0 20px #00d4ff,0 0 30px #6610f2,0 0 40px #0d6efd;} }
+    @keyframes gradientBG { 0%{background-position:0% 50%;} 50%{background-position:100% 50%;} 100%{background-position:0% 50%;} }
+    @keyframes btnGlow { 0%{background-position:0% 50%;} 50%{background-position:100% 50%;} 100%{background-position:0% 50%;} }
+    @keyframes iconBounce { 0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);} }
+</style>
 </head>
 <body>
 
 <header>
-    <h1>🚀 Mini Site DevOps Moderne</h1>
-    <p>Un site responsive avec design pro pour CI/CD</p>
+    <h1>🚀 Mini Site DevOps Premium</h1>
+    <p>Design néon animé, responsive et professionnel pour CI/CD</p>
 </header>
 
-<!-- NAVIGATION -->
 <nav>
     <div class="logo">DevOpsLab</div>
-
     <i class="fa-solid fa-bars burger" onclick="toggleMenu()"></i>
-
     <ul id="menu">
         <li><a href="#accueil">Accueil</a></li>
         <li><a href="#apropos">À propos</a></li>
@@ -179,66 +134,69 @@
     </ul>
 </nav>
 
-<!-- ACCUEIL -->
 <div id="accueil" class="section">
     <h2>🏠 Accueil</h2>
-    <p>Bienvenue dans ce mini site généré pour un pipeline DevOps moderne.  
-    Ce site est responsive, animé, et contient des icônes pour un style professionnel.</p>
-
+    <p>Bienvenue sur le mini site DevOps Premium. Design néon, animations, et responsive pour un rendu professionnel.</p>
     <a href="#apropos" class="btn">Voir plus</a>
 
     <div class="cards">
         <div class="card">
             <i class="fa-solid fa-code"></i>
-            <h3>Code propre</h3>
-            <p>Structure HTML claire et moderne.</p>
+            <h3>Code Propre</h3>
+            <p>HTML/CSS moderne et clair pour un rendu pro.</p>
         </div>
-
         <div class="card">
             <i class="fa-solid fa-rocket"></i>
             <h3>CI/CD</h3>
-            <p>Déploiement automatique via GitHub Actions.</p>
+            <p>Pipeline automatisé avec GitHub Actions.</p>
         </div>
-
         <div class="card">
-            <i class="fa-solid fa-mobile-screen"></i>
+            <i class="fa-solid fa-mobile-screen-button"></i>
             <h3>Responsive</h3>
-            <p>Compatible PC, tablette, smartphone.</p>
+            <p>Compatible tous écrans et appareils.</p>
+        </div>
+        <div class="card">
+            <i class="fa-solid fa-shield-halved"></i>
+            <h3>Sécurité</h3>
+            <p>Pratiques modernes pour protéger vos pipelines.</p>
         </div>
     </div>
 </div>
 
-<!-- A PROPOS -->
 <div id="apropos" class="section">
     <h2>ℹ️ À propos</h2>
-    <p>Ce site est un exemple utilisé dans un TD DevOps pour montrer :</p>
-
+    <p>Ce site montre :</p>
     <ul>
-        <li>Un design moderne</li>
-        <li>Un menu responsive (mobile)</li>
-        <li>Des icônes professionnelles</li>
-        <li>Une intégration simple avec CI/CD</li>
+        <li>Animations néon et design premium</li>
+        <li>Menu responsive pour mobile et tablette</li>
+        <li>Intégration avec CI/CD et Docker</li>
+        <li>Icônes animées et typographie professionnelle</li>
     </ul>
 </div>
 
-<!-- CONTACT -->
 <div id="contact" class="section">
     <h2>📧 Contact</h2>
-    <p>Si vous souhaitez me contacter :</p>
+    <p>Pour toute question ou collaboration :</p>
     <p><strong><i class="fa-solid fa-envelope"></i> contact@monsite.com</strong></p>
+    <p><strong><i class="fa-solid fa-phone"></i> +241 00 00 00 00</strong></p>
 </div>
 
 <footer>
-    © 2025 - Mini Site DevOps | Design moderne et dynamique
+    © 2025 - Mini Site DevOps Premium | Design néon, animé et professionnel
 </footer>
 
-
-<!-- SCRIPT MENU RESPONSIVE -->
 <script>
-    function toggleMenu() {
-        document.getElementById("menu").classList.toggle("show");
-    }
-</script>
+function toggleMenu(){ document.getElementById("menu").classList.toggle("show"); }
 
+// Animation au scroll
+const sections = document.querySelectorAll('.section');
+window.addEventListener('scroll', () => {
+    sections.forEach(sec => {
+        const top = sec.getBoundingClientRect().top;
+        const trigger = window.innerHeight - 100;
+        if(top < trigger){ sec.classList.add('show'); }
+    });
+});
+</script>
 </body>
 </html>
