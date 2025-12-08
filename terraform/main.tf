@@ -1,28 +1,24 @@
 terraform {
   required_providers {
-    render = {
-      source  = "render-oss/render"
-      version = "~> 1.0"
+    docker = {
+      source  = "kreuzwerker/docker"
+      version = "~> 3.0"
     }
   }
 }
 
-provider "render" {
-  api_key = var.render_api_key
+provider "docker" {}
+
+resource "docker_image" "mon_site" {
+  name = "hackintoshhackman/mon-site:latest"
 }
 
-variable "render_api_key" {}
+resource "docker_container" "mon_site" {
+  name  = "mon-site-container"
+  image = docker_image.mon_site.name
 
-resource "render_web_service" "mon_site" {
-  name   = "mon-site"
-  plan   = "free"
-  region = "frankfurt"
-
-  runtime_source = "docker"
-
-  docker_image = "docker.io/hackintoshhackman/mon-site:latest"
-
-  docker_command = ""
-
-  health_check_path = "/"
+  ports {
+    internal = 80
+    external = 8080
+  }
 }

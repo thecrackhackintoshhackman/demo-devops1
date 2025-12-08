@@ -1,32 +1,42 @@
-name: Docker + Railway Deploy
+name: Deploy HTML Website + Docker Hub Push
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
+      # --- Build Docker Image ---
+      - name: Build Docker image
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/mon-site:latest .
+
+      # --- Login Docker Hub ---
       - name: Login to Docker Hub
-        uses: docker/login-action@v3
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      # --- Push Docker Image ---
+      - name: Push Docker image to Docker Hub
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/mon-site:latest
+
+      # --- Vérification ---
+      - name: Vérifier l'image Docker
+        run: docker image ls
+
+      # --- Déploiement FTP (comme tu as déjà) ---
+      - name: Deploy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.0.0
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Build & Push Docker image
-        run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/mon-site:latest .
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/mon-site:latest
-
-      - name: Install Railway CLI
-        run: npm install -g @railway/cli
-
-      - name: Deploy on Railway
-        run: railway up --service mon-site
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./
+          server-dir: /htdocs/
+          dry-run: false
